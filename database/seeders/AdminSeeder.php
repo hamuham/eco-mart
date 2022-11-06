@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-
 class AdminSeeder extends Seeder
 {
     /**
@@ -20,7 +19,7 @@ class AdminSeeder extends Seeder
             'name' => 'test',
             'email' => 'test@test.com',
             'password' => Hash::make('password123'),
-            'created_at' => '2021/01/01'
+            'created_at' => '2021/01/01 11:11:11'
         ]);
     }
 }

@@ -6,16 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Owner;
 
-class Shop extends Model
+class Image extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'owner_id',
-        'name',
-        'information',
-        'filename',
-        'is_selling'
+        'filename'
     ];
 
     public function owner()

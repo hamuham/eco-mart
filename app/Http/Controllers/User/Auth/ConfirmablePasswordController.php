@@ -13,9 +13,10 @@ class ConfirmablePasswordController extends Controller
     /**
      * Show the confirm password view.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function show()
+    public function show(Request $request)
     {
         return view('user.auth.confirm-password');
     }
@@ -28,7 +29,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request)
     {
-        if (! Auth::guard('user')->validate([
+        if (! Auth::guard('users')->validate([
             'email' => $request->user()->email,
             'password' => $request->password,
         ])) {

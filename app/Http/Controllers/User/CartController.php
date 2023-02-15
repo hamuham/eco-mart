@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Stock;
@@ -24,10 +25,42 @@ class CartController extends Controller
             $totalPrice += $product->price * $product->pivot->quantity;
         }
 
-        //dd($products, $totalPrice);
-
         return view('user.cart',
             compact('products', 'totalPrice'));
+    }
+
+    public function getCart()
+    {
+        $user = User::findOrFail(Auth::id());
+        $products = $user->products;
+        $totalPrice = 0;
+
+        foreach($products as $product){
+            $totalPrice += $product->price * $product->pivot->quantity;
+            $product->imageFirst;
+        }
+
+        return compact('products', 'totalPrice');
+    }
+
+    public function cartAdd(Request $request)
+    {
+        $itemInCart = Cart::where('product_id', $request->product_id)
+        ->where('user_id', Auth::id())->first();
+
+        if($itemInCart){
+            $itemInCart->quantity += $request->quantity;
+            $itemInCart->save();
+
+        } else {
+            Cart::create([
+                'user_id' => Auth::id(),
+                'product_id' => $request->product_id,
+                'quantity' => $request->quantity
+            ]);
+        }
+
+        return redirect()->route('user.cart.index');
     }
 
     public function add(Request $request)
@@ -59,9 +92,17 @@ class CartController extends Controller
         return redirect()->route('user.cart.index');
     }
 
+    public function deleteCart($id)
+    {
+        Cart::where('product_id', $id)
+        ->where('user_id', Auth::id())
+        ->delete();
+
+        return redirect()->route('user.cart.index');
+    }
+
     public function checkout()
     {
-
 
         $user = User::findOrFail(Auth::id());
         $products = $user->products;

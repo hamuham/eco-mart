@@ -21,10 +21,19 @@ Route::get('/', function () {
     return view('user.welcome');
 });
 
+
+Route::get('/getCart', [CartController::class, 'getCart'])->name('cart.getCart');
+Route::get('/deleteCart/{item}', [CartController::class, 'deleteCart'])->name('cart.deleteCart');
+Route::post('cartAdd', [CartController::class, 'cartAdd'])->name('cart.cartAdd');
+
 Route::middleware('auth:users')->group(function(){
         Route::get('/', [ItemController::class, 'index'])->name('items.index');
+        Route::get('/getProduct', [ItemController::class, 'getProduct'])->name('items.getProduct');
+        Route::get('/showProduct/{item}', [ItemController::class, 'showProduct'])->name('items.show');
         Route::get('show/{item}', [ItemController::class, 'show'])->name('items.show');
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 });
+
 
 Route::prefix('cart')->middleware('auth:users')->group(function(){
         Route::get('/', [CartController::class, 'index'])->name('cart.index');
@@ -41,7 +50,5 @@ Route::prefix('cart')->middleware('auth:users')->group(function(){
 
 Route::get('/component-test1', [ComponentTestController::class, 'showComponent1']);
 Route::get('/component-test2', [ComponentTestController::class, 'showComponent2']);
-Route::get('/servicecontainertest', [LifeCycleTestController::class, 'showServiceContainerTest']);
-Route::get('/serviceprovidertest', [LifeCycleTestController::class, 'showServiceProviderTest']);
 
 require __DIR__.'/auth.php';

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    <!-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">商品一覧</h2>
         <form method="get" action="{{ route('user.items.index')}}">
             <div class="lg:flex lg:justify-around">
@@ -74,10 +74,11 @@
                 </div>
             </div>
         </form>
-    </x-slot>
-    <div id="app"></div>
+    </x-slot> -->
 
-    <div class="py-12">
+    <div id="app" class="min-h-screen bg-gray-100"></div>
+
+    <!-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -106,7 +107,6 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
     <script>
         const select = document.getElementById('sort')
         select.addEventListener('change', function(){
@@ -116,5 +116,5 @@
         paginate.addEventListener('change', function(){
             this.form.submit()
         })
-    </script>
+    </script> -->
 </x-app-layout>

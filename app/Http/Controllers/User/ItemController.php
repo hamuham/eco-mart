@@ -9,6 +9,7 @@ use App\Models\Stock;
 use App\Models\PrimaryCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\TestMail;
 use App\Jobs\SendThanksMail;
 
@@ -33,14 +34,6 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request);
-
-        // 同期的に送信
-        // Mail::to('test@example.com')
-        // ->send(new TestMail());
-
-        // 非同期に送信
-        // SendThanksMail::dispatch();
 
         $categories = PrimaryCategory::with('secondary')
         ->get();
@@ -55,6 +48,21 @@ class ItemController extends Controller
         compact('products', 'categories'));
     }
 
+    public function getProduct(Request $request)
+    {
+
+        $categories = PrimaryCategory::with('secondary')
+        ->get();
+
+        $products = Product::availableItems()
+        ->selectCategory($request->category ?? '0')
+        ->searchKeyword($request->keyword)
+        ->sortOrder($request->sort)
+        ->paginate($request->pagination ?? '20');
+
+        return compact('products', 'categories');
+    }
+
     public function show($id)
     {
         $product = Product::findOrFail($id);
@@ -63,9 +71,31 @@ class ItemController extends Controller
 
         if($quantity > 9){
             $quantity = 9;
-          }
+        }
 
         return view('user.show',
         compact('product', 'quantity'));
+    }
+
+    public function showProduct($id)
+    {
+        $product = Product::findOrFail($id);
+
+        // N+1問題対策
+        $product->imageFirst;
+        $product->imageSecond;
+        $product->imageThird;
+        $product->imageFourth;
+        $product->shop;
+        $product->category;
+
+        $quantity = Stock::where('product_id', $product->id)
+        ->sum('quantity');
+
+        if($quantity > 9){
+            $quantity = 9;
+        }
+
+        return compact('product', 'quantity');
     }
 }

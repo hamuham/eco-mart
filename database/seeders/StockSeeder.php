@@ -27,4 +27,3 @@ class StockSeeder extends Seeder
             ]]);
     }
 }
-php artisan make:migration create_stocks_table --create=t_stocks

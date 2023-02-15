@@ -20,6 +20,7 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
+        "postcss-import": "^14.1.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "resolve-url-loader": "^5.0.0",
@@ -29,8 +30,11 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.12.4",
+        "@material-ui/lab": "^4.0.0-alpha.61",
         "micromodal": "^0.4.10",
+        "react-modal": "^3.16.1",
+        "react-paginate": "^8.1.4",
         "react-router-dom": "^6.6.1",
-        "swiper": "^6.7.0"
+        "swiper": "^6.8.4"
     }
 }
